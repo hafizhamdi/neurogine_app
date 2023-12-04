@@ -18,20 +18,22 @@ class NeurogineApp extends StatelessWidget {
               ? Center(
                   child: CircularProgressIndicator(),
                 )
-              : data.gameModel != null?ListView.builder(
-                  itemCount: data.gameModel!.results!.length,
-                  itemBuilder: ((context, index) {
-                    return CardItem(
-                      src: data.gameModel!.results![index].backgroundImage!,
-                      title: data.gameModel!.results![index].name!,
-                    );
-                  })): Center(child: Text("Data failed to fetch")),
+              : data.gameModel != null
+                  ? ListView.builder(
+                      itemCount: data.gameModel!.results!.length,
+                      itemBuilder: ((context, index) {
+                        return CardItem(
+                          src: data.gameModel!.results![index].backgroundImage,
+                          title: data.gameModel!.results![index].name!,
+                        );
+                      }))
+                  : Center(child: Text("Data failed to fetch")),
         ));
   }
 }
 
 class CardItem extends StatelessWidget {
-  final String src;
+  final String? src;
   final String title;
   CardItem({required this.src, required this.title});
 
@@ -41,7 +43,7 @@ class CardItem extends StatelessWidget {
       child: Column(children: [
         SizedBox(
           height: 200,
-          child: Image.network(src),
+          child: src != null ? Image.network(src!) : null,
         ),
         Column(
           children: [
