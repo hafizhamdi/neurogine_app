@@ -2,8 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:neurogine_app/controllers/rawg_controller.dart';
 
-class NeurogineApp extends StatelessWidget {
+class NeurogineApp extends StatefulWidget {
+  _NeurogineApp createState() => _NeurogineApp();
+}
+
+class _NeurogineApp extends State<NeurogineApp> {
   RawgController rawgController = Get.put(RawgController());
+  ScrollController? _scrollController;
+  // int _pageCount = 1;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController!.addListener(_scrollListener);
+
+    // rawgController.fetchGames(rawgController.pageCount);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController!.dispose();
+  }
+
+  _scrollListener() {
+    if (_scrollController!.offset >=
+            _scrollController!.position.maxScrollExtent &&
+        !_scrollController!.position.outOfRange) {
+      // Scroll reach bottom
+      rawgController.addPageCount();
+      rawgController.fetchGames(rawgController.pageCount);
+    }
+
+    if (_scrollController!.offset <=
+            _scrollController!.position.minScrollExtent &&
+        _scrollController!.position.outOfRange) {
+      // Scroll reach top
+
+      rawgController.removePageCount();
+
+      rawgController.fetchGames(rawgController.pageCount);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +61,7 @@ class NeurogineApp extends StatelessWidget {
                 )
               : data.gameModel != null
                   ? ListView.builder(
+                      controller: _scrollController,
                       itemCount: data.gameModel!.results!.length,
                       itemBuilder: ((context, index) {
                         return CardItem(

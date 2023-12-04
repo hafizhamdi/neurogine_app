@@ -1,7 +1,7 @@
 class GameModel {
   int? count;
   String? next;
-  Null? previous;
+  String? previous;
   List<Results>? results;
   bool? userPlatforms;
 
@@ -54,11 +54,11 @@ class Results {
   int? suggestionsCount;
   String? updated;
   int? id;
-  Null? score;
-  Null? clip;
+  int? score;
+  int? clip;
   List<Tags>? tags;
   EsrbRating? esrbRating;
-  Null? userGame;
+  String? userGame;
   int? reviewsCount;
   String? saturatedColor;
   String? dominantColor;

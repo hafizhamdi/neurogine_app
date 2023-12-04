@@ -10,6 +10,7 @@ import 'package:neurogine_app/models/game_model.dart';
 class RawgController extends GetxController {
   var isLoading = false.obs;
   var pageCount = 1.obs;
+
   GameModel? gameModel;
 
   @override
@@ -56,4 +57,7 @@ class RawgController extends GetxController {
       isLoading(false);
     }
   }
+
+  addPageCount() => pageCount.value++;
+  removePageCount() => pageCount.value--;
 }
