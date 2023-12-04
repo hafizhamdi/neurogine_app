@@ -1,0 +1,11 @@
+# Avoid those files from commit
+
+.dart_tool
+build
+android
+ios
+linux
+macos
+web
+windows
+pubspec.lock
