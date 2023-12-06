@@ -59,5 +59,10 @@ class RawgController extends GetxController {
   }
 
   addPageCount() => pageCount.value++;
-  removePageCount() => pageCount.value--;
+
+  removePageCount() {
+    if (pageCount.value > 1) {
+      pageCount.value--;
+    }
+  }
 }
