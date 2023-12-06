@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:neurogine_app/controllers/rawg_controller.dart';
+import 'package:neurogine_app/pages/details.dart';
 
 class NeurogineApp extends StatefulWidget {
   _NeurogineApp createState() => _NeurogineApp();
@@ -65,6 +66,10 @@ class _NeurogineApp extends State<NeurogineApp> {
                       itemCount: data.gameModel!.results!.length,
                       itemBuilder: ((context, index) {
                         return CardItem(
+                          onTap: () {
+                            Get.to(() => DetailsPage(
+                                data: data.gameModel!.results![index]));
+                          },
                           src: data.gameModel!.results![index].backgroundImage,
                           title: data.gameModel!.results![index].name!,
                         );
@@ -77,22 +82,25 @@ class _NeurogineApp extends State<NeurogineApp> {
 class CardItem extends StatelessWidget {
   final String? src;
   final String title;
-  CardItem({required this.src, required this.title});
+  final Function() onTap;
+  CardItem({required this.src, required this.title, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(children: [
-        SizedBox(
-          height: 200,
-          child: src != null ? Image.network(src!) : null,
-        ),
-        Column(
-          children: [
-            Text("$title"),
-          ],
-        )
-      ]),
-    );
+    return GestureDetector(
+        onTap: onTap,
+        child: Card(
+          child: Column(children: [
+            SizedBox(
+              height: 200,
+              child: src != null ? Image.network(src!) : null,
+            ),
+            Column(
+              children: [
+                Text("$title"),
+              ],
+            )
+          ]),
+        ));
   }
 }
