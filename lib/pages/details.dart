@@ -36,6 +36,17 @@ class DetailsPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(left: 10),
                         child: Text(
+                          data.result["name"],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
                           "Description",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
