@@ -67,11 +67,15 @@ class _NeurogineApp extends State<NeurogineApp> {
                       itemBuilder: ((context, index) {
                         return CardItem(
                           onTap: () {
-                            Get.to(() => DetailsPage(
-                                data: data.gameModel!.results![index]));
+                            rawgController.fetchDetailGame(
+                                data.gameModel!.results![index].id);
+                            Get.to(() => DetailsPage());
                           },
                           src: data.gameModel!.results![index].backgroundImage,
                           title: data.gameModel!.results![index].name!,
+                          score: data.gameModel!.results![index].ratingsCount,
+                          releaseDate:
+                              data.gameModel!.results![index].released!,
                         );
                       }))
                   : Center(child: Text("Data failed to fetch")),
@@ -82,25 +86,69 @@ class _NeurogineApp extends State<NeurogineApp> {
 class CardItem extends StatelessWidget {
   final String? src;
   final String title;
+  final int? score;
+  final String releaseDate;
   final Function() onTap;
-  CardItem({required this.src, required this.title, required this.onTap});
+  CardItem(
+      {required this.src,
+      required this.title,
+      required this.onTap,
+      this.score,
+      required this.releaseDate});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: onTap,
         child: Card(
-          child: Column(children: [
-            SizedBox(
-              height: 200,
-              child: src != null ? Image.network(src!) : null,
-            ),
-            Column(
-              children: [
-                Text("$title"),
-              ],
-            )
-          ]),
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: src != null ? Image.network(src!) : null,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      "$title",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Released on $releaseDate",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Row(children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          Text(
+                            "$score",
+                            style: TextStyle(color: Colors.grey),
+                          )
+                        ])
+                      ])
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ]),
+          ),
         ));
   }
 }

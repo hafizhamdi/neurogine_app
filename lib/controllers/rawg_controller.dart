@@ -13,6 +13,8 @@ class RawgController extends GetxController {
 
   GameModel? gameModel;
 
+  dynamic result;
+
   @override
   Future<void> onInit() async {
     super.onInit();
@@ -52,6 +54,34 @@ class RawgController extends GetxController {
       }
     } catch (err) {
       print("Error fetch game - $err");
+    } finally {
+      // Turn loading off
+      isLoading(false);
+    }
+  }
+
+  fetchDetailGame(id) async {
+    isLoading(true);
+
+    try {
+      // Set url
+      var url = Uri.tryParse(
+          "https://api.rawg.io/api/games/$id?key=02ef6ba5d13444ee86bad607e8bce3f4");
+
+      // Get data
+      var response = await http.get(url!);
+
+      print("status code=${response.statusCode}");
+
+      // Get successfully 200 OK
+      if (response.statusCode == 200) {
+        // Decode json body
+        result = jsonDecode(response.body);
+      } else {
+        print('$url-error detail fetching');
+      }
+    } catch (err) {
+      print("Error fetch detail game - $err");
     } finally {
       // Turn loading off
       isLoading(false);
