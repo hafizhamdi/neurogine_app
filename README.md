@@ -10,7 +10,7 @@ To start run this application, feel free to clone the project repository.
 2. Add .env file with api key provided like below
 
 ```env
-apikey=blablablalablbabl
+apiKey=blablablalablbabl
 ```
 3. Open the terminal
 4. Run flutter pub get
