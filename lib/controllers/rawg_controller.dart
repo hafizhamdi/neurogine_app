@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:neurogine_app/models/game_model.dart';
 
+import '../env/env.dart';
+
 class RawgController extends GetxController {
   var isLoading = false.obs;
   var pageCount = 1.obs;
@@ -33,9 +35,12 @@ class RawgController extends GetxController {
       var lastYear = now.subtract(Duration(days: 365));
       var startDate = DateFormat("yyyy-MM-dd").format(lastYear);
 
+      // Get Api key
+      var apiKey = Env.apiKey;
+
       // Set url
       var url = Uri.tryParse(
-          "https://api.rawg.io/api/games?page=$pageCount&page_size=20&platforms=187&dates=$startDate,$currDate&ordering=-released&key=02ef6ba5d13444ee86bad607e8bce3f4");
+          "https://api.rawg.io/api/games?page=$pageCount&page_size=20&platforms=187&dates=$startDate,$currDate&ordering=-released&key=$apiKey");
 
       // Get data
       var response = await http.get(url!);
@@ -64,9 +69,11 @@ class RawgController extends GetxController {
     isLoading(true);
 
     try {
+      // Get api key
+      var apiKey = Env.apiKey;
+
       // Set url
-      var url = Uri.tryParse(
-          "https://api.rawg.io/api/games/$id?key=02ef6ba5d13444ee86bad607e8bce3f4");
+      var url = Uri.tryParse("https://api.rawg.io/api/games/$id?key=$apiKey");
 
       // Get data
       var response = await http.get(url!);
